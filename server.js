@@ -7,7 +7,7 @@ const PORT  = process.env.PORT || 5000
 app.listen(PORT, () => 
     console.log(`------// SERVER UP AND RUNNING // --- \n 
         - PORT: ${PORT} \n 
-        - MODE: ${process.env.NODE_ENV} \n
+        - MODE: ${process.env.NODE_ENV === 'production' ? 'PRODUCTION VERSION' : 'Development stage'} \n
         - EXPRESS: ${express ? 'YES' : 'NO'} \n
         - DB: database `
 ))
