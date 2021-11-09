@@ -1,6 +1,7 @@
 const express = require('express')
 const db = require('./config/db')
 const cors = require('cors')
+const session = require('express-session')
 
 const app = express()
 const connectDb = db()
@@ -12,6 +13,14 @@ var corsOptions = {
     origin: clientHost,
     optionsSuccessStatus: 200 
   }
+
+app.set('trust proxy', 1) 
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true }
+}))
 
 app.use(cors(corsOptions))
 
