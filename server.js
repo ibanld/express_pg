@@ -21,7 +21,7 @@ app.listen(PORT, () =>
         \n- MODE: ${process.env.NODE_ENV === 'production' ? 'PRODUCTION VERSION' : 'Development stage'} 
         \n- EXPRESS: ${express ? 'YES' : 'NO'} 
         \n- CORS: ON
-        \n- DB: ${connectDb && 'Connected to Database'}
+        \n- DB: ${connectDb ? 'Connected to Database' : 'Database Connection Error!'}
         \n> Read README.md to connect with CLIENT <
         \n___________________________________________ 
         \nServer logs: `
