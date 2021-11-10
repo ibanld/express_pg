@@ -1,4 +1,4 @@
-const User = require('../models/Users.model')
+const User = require('../models/Users.model.js')
 const bcrypt = require('bcryptjs')
 
 // Validate E-mail function using RegEx
@@ -57,7 +57,7 @@ exports.addUser = async (req, res) => {
             return res.send({ message: 'Nao ha uma senha' })
         }
 
-        if (email && password) {
+        if (username && password) {
             // Check if user is already in the database
             const myUser = await User.findOne({where: { username: username }})
             if (myUser) {
@@ -96,13 +96,12 @@ exports.addUser = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
     try {
-        // We receive the user Id from the params /api/users/:id
         const id = req.params.id
         // Action: what are we going to update?
         // Payload: the new value we are saving
         const { type, payload } = req.body
         switch (type) {
-            case 'UPDATE_EMAIL':
+            case 'UPDATE_USERNAME':
                 const username = { username: payload }
                 const updateEmail = await User.update(username, {where: { id: id } })
                 if (updateEmail) {
@@ -114,11 +113,11 @@ exports.updateUser = async (req, res) => {
                 // We retrieve our user from the DB
                 const userToUpdate = await User.findByPk(id)
                 // Using Bcrypt we compare both passwords
-                const checkPassword = bcrypt.compareSync(oldPassword, userToUpdate.senha)
+                const checkPassword = bcrypt.compareSync(oldPassword, userToUpdate.password)
                 // If passwords match we update new password into DB
                 if (checkPassword) {
                     const hash = bcrypt.hashSync(newPassword, 10)
-                    const password = {senha: hash}
+                    const password = {password: hash}
                     const updatePassword = await User.update(password, { where: { id: id } })
                     if (updatePassword) {
                         return res.send({ message: 'Senha foi atualizada' })
